@@ -2,6 +2,15 @@ import React from 'react';
 //import './App.css';
 import Input from "./components/Input";
 import Textarea from "./components/Textarea"
+import styled from '@emotion/styled'
+
+const ButtonStyled = styled.button`
+  background: #369;
+  color: white;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+`;
+
 
 class App extends React.Component {
   constructor (props) {
@@ -38,7 +47,7 @@ class App extends React.Component {
           <form onSubmit={this.crearEntrada} className="formulario">
             <Input id="titulo" name="titulo" label="Titulo" onChange={this.onChange} value={this.state.titulo}/>
             <Textarea id="contenido" name="contenido" label="Contenido" onChange={this.onChange} value={this.state.contenido}/>
-            <button>Crear entrada</button>
+            <ButtonStyled>Crear entrada</ButtonStyled>
           </form>
         </aside>
         <section>
