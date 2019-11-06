@@ -3,14 +3,33 @@ import React from 'react';
 import Input from "./components/Input";
 import Textarea from "./components/Textarea"
 import styled from '@emotion/styled'
+import {darken,lighten} from 'polished'
 
+const color = '#f1f2f3';
+const color2 = '#369';
 const ButtonStyled = styled.button`
-  background: #369;
+  background: ${color2};
   color: white;
   padding: 1rem 2rem;
   font-size: 1rem;
+  font-weight: bold;
+  &:hover{
+    background: ${darken(.1,color2)}
+    
+  }
 `;
 
+const AsideStyle = styled.div`
+  background: #f3f9f0;
+  .formulario{
+    background: ${lighten(0.6,"#369")};
+    color:white;
+    &:hover {
+      background: ${lighten(.1,"#454554")};
+      color: black;
+    }
+  }
+`;
 
 class App extends React.Component {
   constructor (props) {
@@ -43,13 +62,13 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        <aside>
+        <AsideStyle>
           <form onSubmit={this.crearEntrada} className="formulario">
             <Input id="titulo" name="titulo" label="Titulo" onChange={this.onChange} value={this.state.titulo}/>
             <Textarea id="contenido" name="contenido" label="Contenido" onChange={this.onChange} value={this.state.contenido}/>
             <ButtonStyled>Crear entrada</ButtonStyled>
           </form>
-        </aside>
+        </AsideStyle>
         <section>
           <ul>
             {
