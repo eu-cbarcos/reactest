@@ -92,6 +92,7 @@ class App extends React.Component {
       entradas: [...this.state.entradas,{
         titulo: this.state.titulo,
         contenido: this.state.contenido,
+        id: 'entrada-' +this.state.entradas.length
       }],
       titulo: '',
       contenido: '',
