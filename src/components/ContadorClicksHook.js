@@ -7,11 +7,15 @@ const ContadorClicksHooks = () => {
   const [click,setClicks] = useState(0);
   // "" valor inicial
   const [nombre,setNombre] = useState("");
-  const [objeto,setObjeto] = useState("");
+  //const [objeto,setObjeto] = useState("");
 
   const aumentar = () => {
     setClicks(click + 1);
   }
+
+  React.useEffect(()=>{
+    console.log("Llamada a useEffect", click, nombre);
+  },[click,nombre]);
 
   return (
     <div className="border-gray-300 px-5">
@@ -23,12 +27,10 @@ const ContadorClicksHooks = () => {
         name="nombre" 
         id="nombre" 
         label="nombre" 
-        value={objeto.nombre}
-        onChange={e=>setObjeto({
-          nombre: e.target.value
-        })}
+        value={nombre}
+        onChange={e=>setNombre(e.target.value)}
       />
-      <p className="text-gray-600">{objeto.nombre}</p>
+      <p className="text-gray-600">{nombre}</p>
     </div>
   )
 }
