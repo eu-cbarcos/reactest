@@ -5,6 +5,8 @@ import Textarea from "./components/Textarea"
 import styled from '@emotion/styled'
 import {darken} from 'polished'
 import {FaChevronLeft,FaChevronRight} from 'react-icons/fa'
+import ContadorClicks from './components/ContadorClicks'
+import ContadorClicksHooks from './components/ContadorClicksHook'
 
 //const color = '#f1f2f3';
 const color2 = '#369';
@@ -109,10 +111,12 @@ class App extends React.Component {
           <form onSubmit={this.crearEntrada} className="formulario">
             <Input id="titulo" name="titulo" label="Titulo" onChange={this.onChange} value={this.state.titulo}/>
             <Textarea id="contenido" name="contenido" label="Contenido" onChange={this.onChange} value={this.state.contenido}/>
-            <button className="bg-blue-600 px-2">Crear entrada2</button>
+            <ButtonStyled className="bg-blue-800 px-2">Crear entrada2</ButtonStyled>
           </form>
         </AsideStyle>
-        <section className="contenido-principal">
+        <section className="contenido-principal px-12">
+        <ContadorClicks/>
+        <ContadorClicksHooks/>
           <ul>
             {this.state.entradas.map( (entrada) => (
               <li key={entrada.id}>
