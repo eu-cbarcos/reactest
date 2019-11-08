@@ -7,6 +7,7 @@ const ContadorClicksHooks = () => {
   const [click,setClicks] = useState(0);
   // "" valor inicial
   const [nombre,setNombre] = useState("");
+  const [objeto,setObjeto] = useState("");
 
   const aumentar = () => {
     setClicks(click + 1);
@@ -22,10 +23,12 @@ const ContadorClicksHooks = () => {
         name="nombre" 
         id="nombre" 
         label="nombre" 
-        value={nombre}
-        onChange={e=>setNombre(e.target.value)}
+        value={objeto.nombre}
+        onChange={e=>setObjeto({
+          nombre: e.target.value
+        })}
       />
-      <p className="text-gray-600">{nombre}</p>
+      <p className="text-gray-600">{objeto.nombre}</p>
     </div>
   )
 }
