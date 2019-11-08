@@ -116,7 +116,10 @@ class App extends React.Component {
         </AsideStyle>
         <section className="contenido-principal px-12">
         <ContadorClicks/>
-        <ContadorClicksHooks/>
+
+        {!this.state.estadoCerrado && <ContadorClicksHooks/>}
+
+        
           <ul>
             {this.state.entradas.map( (entrada) => (
               <li key={entrada.id}>

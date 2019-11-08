@@ -13,8 +13,26 @@ const ContadorClicksHooks = () => {
     setClicks(click + 1);
   }
 
-  React.useEffect(()=>{
+  // didMount
+  /*React.useEffect(()=>{
     console.log("Llamada a useEffect", click, nombre);
+  },[]);*/ 
+
+  // didUpdate
+/*  React.useEffect(()=>{
+    console.log("Llamada a useEffect", click, nombre);
+  },[click,nombre]);*/
+
+
+  React.useEffect(()=>{
+    console.log("Llamada a useEffect", click);
+    const timeout = setTimeout(()=>{
+      console.log("llamada asincrona");
+    },3000);
+    return () =>{
+      console.log("Parecido a componentWillUnmount");
+      clearTimeout(timeout);
+    }
   },[click,nombre]);
 
   return (
