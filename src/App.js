@@ -109,7 +109,7 @@ class App extends React.Component {
           <form onSubmit={this.crearEntrada} className="formulario">
             <Input id="titulo" name="titulo" label="Titulo" onChange={this.onChange} value={this.state.titulo}/>
             <Textarea id="contenido" name="contenido" label="Contenido" onChange={this.onChange} value={this.state.contenido}/>
-            <ButtonStyled>Crear entrada</ButtonStyled>
+            <button className="bg-blue-600 px-2">Crear entrada2</button>
           </form>
         </AsideStyle>
         <section className="contenido-principal">
