@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import Input from './Input';
+import { withLog } from './withLog';
 
 const ContadorClicksHooks = () => {
 
@@ -39,7 +40,7 @@ const ContadorClicksHooks = () => {
     <div className="border-gray-300 px-5">
       <h4>Hooks</h4>
       <p>van {click}</p>
-      <button onClick={aumentar}>click</button>
+      <button onClick={aumentar} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">click</button>
       <Input
         className="px-5"
         name="nombre" 
@@ -52,4 +53,4 @@ const ContadorClicksHooks = () => {
     </div>
   )
 }
-export default ContadorClicksHooks;
+export default withLog(ContadorClicksHooks);

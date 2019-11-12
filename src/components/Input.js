@@ -10,7 +10,7 @@ class Input extends Component{
     return (
       <div>
         <label htmlFor={this.props.id}>{this.props.label}</label>
-        <input id={this.props.id} name={this.props.name} onChange={this.props.onChange} value={this.props.value}/>
+        <input id={this.props.id} name={this.props.name} onChange={this.props.onChange} value={this.props.value} className="text-black"/>
       </div>
     )
   }

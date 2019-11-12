@@ -8,20 +8,20 @@ import {FaChevronLeft,FaChevronRight} from 'react-icons/fa'
 import ContadorClicks from './components/ContadorClicks'
 import ContadorClicksHooks from './components/ContadorClicksHook'
 import ContadorClicksReducer from './components/ContadorClicksReducer'
+import {Form} from './components/Form'
 
 //const color = '#f1f2f3';
 const color2 = '#369';
-const ButtonStyled = styled.button`
+/*const ButtonStyled = styled.button`
   background: ${color2};
   color: white;
   padding: 1rem 2rem;
   font-size: 1rem;
   font-weight: bold;
   &:hover{
-    background: ${darken(.1,color2)}
-    
+    background: ${darken(.1,color2)}    
   }
-`;
+`;*/
 const accentColor = '#f0b429';
 
 const FaButtonStyled=styled.button`
@@ -33,11 +33,11 @@ const FaButtonStyled=styled.button`
   align-items: center;
   font-size: 1rem;
   height: 2rem;
-  width; 2rem;
+  width: 2rem;
   box-shadow: 0 0 5px black;
   cursor: pointer;
   position: absolute;
-  left: 12rem;
+  left: 13.5rem;
   top: 0;
 `;
 
@@ -49,7 +49,7 @@ const AppStyle = styled.div`
     color: white;
     height: auto;
     min-height: 100vh;
-    max-width: 11rem;
+    max-width: 14rem;
     transition: .3s all ease-in-out;
 
   }
@@ -89,7 +89,7 @@ class App extends React.Component {
     });
   }
   crearEntrada (e) {
-    e.preventDefault();
+    //e.preventDefault(); // ya lo manejo en el formjs
     console.log("submitting...");
     this.setState({
       entradas: [...this.state.entradas,{
@@ -109,24 +109,30 @@ class App extends React.Component {
           {this.state.estadoCerrado && <FaChevronRight/>}
           {!this.state.estadoCerrado && <FaChevronLeft/>}
         </FaButtonStyled>
-          <form onSubmit={this.crearEntrada} className="formulario">
+
+          <Form crearEntradaProps={this.crearEntrada} myClass="formulario">
             <Input id="titulo" name="titulo" label="Titulo" onChange={this.onChange} value={this.state.titulo}/>
             <Textarea id="contenido" name="contenido" label="Contenido" onChange={this.onChange} value={this.state.contenido}/>
-            <ButtonStyled className="bg-blue-800 px-2">Crear entrada2</ButtonStyled>
-          </form>
+          </Form>
+
         </AsideStyle>
         <section className="contenido-principal px-12">
+
+        <ul>
+          {this.state.entradas.map( (entrada) => (
+            <li key={entrada.id}>
+              <h3>{entrada.titulo}</h3>
+              <p>{entrada.contenido}</p>
+              <p dangerouslySetInnerHTML={{__html: entrada.contenido}}
+              ></p>
+            </li>
+          ))}
+        </ul>
+
         <ContadorClicks/>
 
         {!this.state.estadoCerrado && <ContadorClicksHooks/>}        
-          <ul>
-            {this.state.entradas.map( (entrada) => (
-              <li key={entrada.id}>
-                <h3>{entrada.titulo}</h3>
-                <p>{entrada.contenido}</p>
-              </li>
-            ))}
-          </ul>
+          
           <br />
           <ContadorClicksReducer />
         </section>

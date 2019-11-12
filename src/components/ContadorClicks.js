@@ -1,4 +1,5 @@
 import React from 'react'
+import {withLog} from './withLog'
 
 class ContadorClicks extends React.Component{
   constructor (props) {
@@ -16,10 +17,10 @@ class ContadorClicks extends React.Component{
   render () {
     return (
       <div className="">
-        <p>van {this.state.numclicks}</p>
-        <button onClick={this.nelsin}>click</button>
+        <p>van {this.state.numclicks}++</p>
+        <button onClick={this.nelsin} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">click</button>
       </div>
     )
   };
 }
-export default ContadorClicks;
+export default withLog(ContadorClicks);
