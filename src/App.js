@@ -9,6 +9,7 @@ import ContadorClicks from './components/ContadorClicks'
 import ContadorClicksHooks from './components/ContadorClicksHook'
 import ContadorClicksReducer from './components/ContadorClicksReducer'
 import {Form} from './components/Form'
+import {Switch,Route, BrowserRouter, Link, useParams, useLocation} from "react-router-dom"
 
 //const color = '#f1f2f3';
 const color2 = '#369';
@@ -37,8 +38,8 @@ const FaButtonStyled=styled.button`
   box-shadow: 0 0 5px black;
   cursor: pointer;
   position: absolute;
-  left: 13.5rem;
-  top: 0;
+  left: 14rem;
+  top: 2rem;
 `;
 
 const AppStyle = styled.div`
@@ -49,7 +50,7 @@ const AppStyle = styled.div`
     color: white;
     height: auto;
     min-height: 100vh;
-    max-width: 14rem;
+    max-width: 15rem;
     transition: .3s all ease-in-out;
 
   }
@@ -60,6 +61,17 @@ const AppStyle = styled.div`
 `;
 const AsideStyle = styled.div`
 `;
+
+const Child = () => {
+  let {id} = useParams();
+  let location = useLocation(); // query string
+  console.log(location.search);
+  return (
+    <div>
+      <h3>ID : {id}</h3>
+    </div>
+  );
+}
 
 class App extends React.Component {
   constructor (props) {
@@ -103,40 +115,77 @@ class App extends React.Component {
   }
   render () {
     return (
-      <AppStyle>
-        <AsideStyle className={`panel-admin ${this.state.estadoCerrado}?cerrado:`}>
-        <FaButtonStyled onClick={this.ejecutarCerrado}>
-          {this.state.estadoCerrado && <FaChevronRight/>}
-          {!this.state.estadoCerrado && <FaChevronLeft/>}
-        </FaButtonStyled>
+      <BrowserRouter>
+        <header>
+          <nav>
+            <ul className="flex justify-center">
+              <li className="mx-4 uppercase">
+                <Link to="/">Inicio</Link>
+              </li>
+              <li className="mx-4 uppercase">
+              <Link to="/acerca">Acerca</Link>
+              </li>
+              <li className="mx-4 uppercase">
+                <Link to="/contacto">Contacto</Link>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <Switch>
+          <Route exact path="/">    
+            <AppStyle>
+              <AsideStyle className={`panel-admin ${this.state.estadoCerrado}?cerrado:`}>
+              <FaButtonStyled onClick={this.ejecutarCerrado}>
+                {this.state.estadoCerrado && <FaChevronRight/>}
+                {!this.state.estadoCerrado && <FaChevronLeft/>}
+              </FaButtonStyled>
 
-          <Form crearEntradaProps={this.crearEntrada} myClass="formulario">
-            <Input id="titulo" name="titulo" label="Titulo" onChange={this.onChange} value={this.state.titulo}/>
-            <Textarea id="contenido" name="contenido" label="Contenido" onChange={this.onChange} value={this.state.contenido}/>
-          </Form>
+                <Form crearEntradaProps={this.crearEntrada} myClass="formulario">
+                  <Input id="titulo" name="titulo" label="Titulo" onChange={this.onChange} value={this.state.titulo}/>
+                  <Textarea id="contenido" name="contenido" label="Contenido" onChange={this.onChange} value={this.state.contenido}/>
+                </Form>
 
-        </AsideStyle>
-        <section className="contenido-principal px-12">
+              </AsideStyle>
+              <section className="contenido-principal px-12">
 
-        <ul>
-          {this.state.entradas.map( (entrada) => (
-            <li key={entrada.id}>
-              <h3>{entrada.titulo}</h3>
-              <p>{entrada.contenido}</p>
-              <p dangerouslySetInnerHTML={{__html: entrada.contenido}}
-              ></p>
-            </li>
-          ))}
-        </ul>
+              <ul>
+                {this.state.entradas.map( (entrada) => (
+                  <li key={entrada.id}>
+                    <h3>{entrada.titulo}</h3>
+                    <p>{entrada.contenido}</p>
+                    <p dangerouslySetInnerHTML={{__html: entrada.contenido}}
+                    ></p>
+                  </li>
+                ))}
+              </ul>
 
-        <ContadorClicks/>
+              <ContadorClicks/>
 
-        {!this.state.estadoCerrado && <ContadorClicksHooks/>}        
-          
-          <br />
-          <ContadorClicksReducer />
-        </section>
-      </AppStyle>
+              {!this.state.estadoCerrado && <ContadorClicksHooks/>}        
+                
+                <br />
+                <ContadorClicksReducer />
+              </section>
+            </AppStyle>
+          </Route>
+          <Route path="/acerca">
+            <div>
+              <h1>Acerca de: </h1>
+            </div>
+          </Route>
+          <Route path="/contacto">
+            <div>
+              <h1>Contactenos... </h1>
+            </div>
+          </Route>
+          <Route path="/user/:id" children={<Child />} />
+          <Route path="*">
+            <div>
+              <h1>404!</h1>
+            </div>
+          </Route>
+        </Switch>
+      </BrowserRouter>
     );
   }
 }
