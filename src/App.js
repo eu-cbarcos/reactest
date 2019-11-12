@@ -7,6 +7,7 @@ import {darken} from 'polished'
 import {FaChevronLeft,FaChevronRight} from 'react-icons/fa'
 import ContadorClicks from './components/ContadorClicks'
 import ContadorClicksHooks from './components/ContadorClicksHook'
+import ContadorClicksReducer from './components/ContadorClicksReducer'
 
 //const color = '#f1f2f3';
 const color2 = '#369';
@@ -117,9 +118,7 @@ class App extends React.Component {
         <section className="contenido-principal px-12">
         <ContadorClicks/>
 
-        {!this.state.estadoCerrado && <ContadorClicksHooks/>}
-
-        
+        {!this.state.estadoCerrado && <ContadorClicksHooks/>}        
           <ul>
             {this.state.entradas.map( (entrada) => (
               <li key={entrada.id}>
@@ -128,6 +127,8 @@ class App extends React.Component {
               </li>
             ))}
           </ul>
+          <br />
+          <ContadorClicksReducer />
         </section>
       </AppStyle>
     );
