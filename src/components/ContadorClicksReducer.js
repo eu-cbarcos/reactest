@@ -1,23 +1,24 @@
-import React, {useState} from 'react'
+import React, {useReducer} from 'react'
+
+const reducer = (state,action) => {
+  switch(action.type){
+    case 'aumentar': return {clicks: state.clicks+1}
+    case 'disimuir': return {clicks: state.clicks-1}
+    default: throw new Error();
+  }
+}
 
 const ContadorClicksReducer = () => { 
 
-  const [click,setClick] = useState(0);
-
-  const aumentar = () => {
-    setClick(click + 1);
-  }
-
-  const disminuir = () => {
-    setClick(click - 1);
-  }
+  //useReducer recibe : metodo y estado inicial
+  const [state,dispatch] = useReducer(reducer, {clicks: 0});
 
   return (
     <div>
       <h4>Reducer</h4>
-      <p>Van {click} clicks</p>
-      <button onClick={aumentar}>Aumentar</button>
-      <button onClick={disminuir}>Disminuir</button>
+      <p>Van {state.clicks} clicks</p>
+      <button onClick={()=>dispatch({type: 'aumentar'})}>Aumentar</button>
+      <button onClick={()=>dispatch({type: 'disimuir'})}>Disminuir</button>
       
     </div>
   )
