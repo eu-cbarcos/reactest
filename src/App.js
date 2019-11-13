@@ -10,6 +10,8 @@ import ContadorClicksHooks from './components/ContadorClicksHook'
 import ContadorClicksReducer from './components/ContadorClicksReducer'
 import {Form} from './components/Form'
 import {Switch,Route, BrowserRouter, Link, useParams, useLocation} from "react-router-dom"
+import ThemeContext from './themeContext';
+
 
 //const color = '#f1f2f3';
 const color2 = '#369';
@@ -64,8 +66,8 @@ const AsideStyle = styled.div`
 
 const Child = () => {
   let {id} = useParams();
-  let location = useLocation(); // query string
-  console.log(location.search);
+  //let location = useLocation(); // query string
+  //console.log(location.search);
   return (
     <div>
       <h3>ID : {id}</h3>
@@ -131,7 +133,10 @@ class App extends React.Component {
             </ul>
           </nav>
         </header>
+        
+        
         <Switch>
+        
           <Route exact path="/">    
             <AppStyle>
               <AsideStyle className={`panel-admin ${this.state.estadoCerrado}?cerrado:`}>
@@ -159,10 +164,22 @@ class App extends React.Component {
                 ))}
               </ul>
 
-              <ContadorClicks/>
+                <ThemeContext.Provider value={{
+                  color:'red',size:25
+                }}>
 
-              {!this.state.estadoCerrado && <ContadorClicksHooks/>}        
+                  <ThemeContext.Consumer>{()=>(
+                    <ContadorClicks/>
+                  )}</ThemeContext.Consumer>
                 
+                </ThemeContext.Provider>
+
+                {!this.state.estadoCerrado && 
+                  <ThemeContext.Consumer>{()=>(
+                    <ContadorClicksHooks/>
+                  )}</ThemeContext.Consumer>
+                }
+
                 <br />
                 <ContadorClicksReducer />
               </section>
@@ -184,7 +201,10 @@ class App extends React.Component {
               <h1>404!</h1>
             </div>
           </Route>
+          
         </Switch>
+        
+        
       </BrowserRouter>
     );
   }

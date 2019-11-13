@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import Input from './Input';
 import { withLog } from './withLog';
+import ThemeContext from '../themeContext';
 
 const ContadorClicksHooks = () => {
 
@@ -9,21 +10,11 @@ const ContadorClicksHooks = () => {
   // "" valor inicial
   const [nombre,setNombre] = useState("");
   //const [objeto,setObjeto] = useState("");
+  const theme = useContext(ThemeContext);
 
   const aumentar = () => {
     setClicks(click + 1);
   }
-
-  // didMount
-  /*React.useEffect(()=>{
-    console.log("Llamada a useEffect", click, nombre);
-  },[]);*/ 
-
-  // didUpdate
-/*  React.useEffect(()=>{
-    console.log("Llamada a useEffect", click, nombre);
-  },[click,nombre]);*/
-
 
   React.useEffect(()=>{
     console.log("Llamada a useEffect", click);
@@ -38,7 +29,7 @@ const ContadorClicksHooks = () => {
 
   return (
     <div className="border-gray-300 px-5">
-      <h4>Hooks</h4>
+      <h4>Hooks {theme.color} -- {theme.size}</h4>
       <p>van {click}</p>
       <button onClick={aumentar} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">click</button>
       <Input
