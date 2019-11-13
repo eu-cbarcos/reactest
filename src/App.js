@@ -8,10 +8,10 @@ import {FaChevronLeft,FaChevronRight} from 'react-icons/fa'
 import ContadorClicks from './components/ContadorClicks'
 import ContadorClicksHooks from './components/ContadorClicksHook'
 import ContadorClicksReducer from './components/ContadorClicksReducer'
-import {Form} from './components/Form'
+//import {Form} from './components/Form'
 import {Switch,Route, BrowserRouter, Link, useParams, useLocation} from "react-router-dom"
 import ThemeContext from './themeContext';
-
+import Loadable from 'react-loadable'
 
 //const color = '#f1f2f3';
 const color2 = '#369';
@@ -75,6 +75,12 @@ const Child = () => {
   );
 }
 
+const Form = Loadable({
+  loader: () => import(/* webpackChunkName: "formularioAsync" */ './components/Form'),
+  loading: ()=><div>Cargando...</div>,
+  modules: ['formularioAsync']
+});
+
 class App extends React.Component {
   constructor (props) {
     super(props);
@@ -117,7 +123,8 @@ class App extends React.Component {
   }
   render () {
     return (
-      <BrowserRouter>
+      <div>
+
         <header>
           <nav>
             <ul className="flex justify-center">
@@ -133,7 +140,6 @@ class App extends React.Component {
             </ul>
           </nav>
         </header>
-        
         
         <Switch>
         
@@ -155,11 +161,12 @@ class App extends React.Component {
 
               <ul>
                 {this.state.entradas.map( (entrada) => (
-                  <li key={entrada.id}>
-                    <h3>{entrada.titulo}</h3>
-                    <p>{entrada.contenido}</p>
-                    <p dangerouslySetInnerHTML={{__html: entrada.contenido}}
-                    ></p>
+                  <li key={entrada.id} className="py-4">
+                    <div className="max-w-sm rounded overflow-hidden shadow-lg">
+                      <div className="px-6 py-4">
+                        <span className="text-green">{entrada.titulo}</span> | <span className="text-gray">{entrada.contenido}</span>
+                      </div>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -204,9 +211,9 @@ class App extends React.Component {
           
         </Switch>
         
-        
-      </BrowserRouter>
+      </div>
     );
   }
 }
 export default App;
+//<!-- p dangerouslySetInnerHTML={{__html: entrada.contenido}}></p -->

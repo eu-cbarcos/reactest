@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSubmit} from '../hooks/useSubmit';
 
-export const Form = ({children,crearEntradaProps,myClass}) => {
+const Form = ({children,crearEntradaProps,myClass}) => {
 
   const onSubmit = (event) => {
     //event.persist();
@@ -10,7 +10,7 @@ export const Form = ({children,crearEntradaProps,myClass}) => {
       setTimeout(()=>{
         //reject('Ocurrio un error');
         resolve(crearEntradaProps());
-      },1000);
+      },10);
     });
   }
 
@@ -29,3 +29,4 @@ export const Form = ({children,crearEntradaProps,myClass}) => {
     </form>
   )
 }
+export default Form;

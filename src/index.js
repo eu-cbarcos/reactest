@@ -5,9 +5,12 @@ import './styles/tailwind.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import ThemeContext from './themeContext';
+import {BrowserRouter} from "react-router-dom"
 
-ReactDOM.render(
-  <App />, 
+ReactDOM.hydrate( // ya no es render, sino hydratar... rehidratamos
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>, 
   document.getElementById('root')
 );
 
