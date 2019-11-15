@@ -9,4 +9,4 @@ require('babel-register')({
     'transform-react-jsx'
   ]
 });
-require('./index.js');
+require('./graphql-server.js');
