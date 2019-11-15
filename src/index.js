@@ -8,9 +8,9 @@ import ThemeContext from './themeContext';
 import {BrowserRouter} from "react-router-dom"
 
 ReactDOM.hydrate( // ya no es render, sino hydratar... rehidratamos
-  <BrowserRouter>
+  
     <App />
-  </BrowserRouter>, 
+  , 
   document.getElementById('root')
 );
 

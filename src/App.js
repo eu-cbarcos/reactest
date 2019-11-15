@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Suspense} from 'react';
 //import './App.css';
 import Input from "./components/Input";
 import Textarea from "./components/Textarea"
@@ -11,7 +11,8 @@ import ContadorClicksReducer from './components/ContadorClicksReducer'
 //import {Form} from './components/Form'
 import {Switch,Route, BrowserRouter, Link, useParams, useLocation} from "react-router-dom"
 import ThemeContext from './themeContext';
-import Loadable from 'react-loadable'
+//import Loadable from 'react-loadable'
+import Portal from './components/Portal'
 
 //const color = '#f1f2f3';
 const color2 = '#369';
@@ -75,11 +76,14 @@ const Child = () => {
   );
 }
 
-const Form = Loadable({
-  loader: () => import(/* webpackChunkName: "formularioAsync" */ './components/Form'),
-  loading: ()=><div>Cargando...</div>,
-  modules: ['formularioAsync']
-});
+//const Form = Loadable({
+//  loader: () => import(/* webpackChunkName: "formularioAsync" */ './components/Form'),
+//  loading: ()=><div>Cargando...</div>,
+//  modules: ['formularioAsync']
+//});
+
+const Form = React.lazy(() => import(/* webpackChunkName: "formularioAsync" */ './components/Form'));
+
 
 class App extends React.Component {
   constructor (props) {
@@ -124,8 +128,10 @@ class App extends React.Component {
   render () {
     return (
       <div>
-
+        
+<BrowserRouter>
         <header>
+        
           <nav>
             <ul className="flex justify-center">
               <li className="mx-4 uppercase">
@@ -139,11 +145,13 @@ class App extends React.Component {
               </li>
             </ul>
           </nav>
+          <Portal/>
         </header>
         
         <Switch>
-        
-          <Route exact path="/">    
+          
+          <Route exact path="/">  
+            
             <AppStyle>
               <AsideStyle className={`panel-admin ${this.state.estadoCerrado}?cerrado:`}>
               <FaButtonStyled onClick={this.ejecutarCerrado}>
@@ -151,11 +159,12 @@ class App extends React.Component {
                 {!this.state.estadoCerrado && <FaChevronLeft/>}
               </FaButtonStyled>
 
-                <Form crearEntradaProps={this.crearEntrada} myClass="formulario">
-                  <Input id="titulo" name="titulo" label="Titulo" onChange={this.onChange} value={this.state.titulo}/>
-                  <Textarea id="contenido" name="contenido" label="Contenido" onChange={this.onChange} value={this.state.contenido}/>
-                </Form>
-
+                <Suspense fallback={<div>loading ..... </div>}>
+                  <Form crearEntradaProps={this.crearEntrada} myClass="formulario">
+                    <Input id="titulo" name="titulo" label="Titulo" onChange={this.onChange} value={this.state.titulo}/>
+                    <Textarea id="contenido" name="contenido" label="Contenido" onChange={this.onChange} value={this.state.contenido}/>
+                  </Form>
+                </Suspense>
               </AsideStyle>
               <section className="contenido-principal px-12">
 
@@ -210,7 +219,7 @@ class App extends React.Component {
           </Route>
           
         </Switch>
-        
+</BrowserRouter>
       </div>
     );
   }

@@ -19,10 +19,10 @@ const ContadorClicksHooks = () => {
   React.useEffect(()=>{
     console.log("Llamada a useEffect", click);
     const timeout = setTimeout(()=>{
-      console.log("llamada asincrona");
+      //console.log("llamada asincrona");
     },3000);
     return () =>{
-      console.log("Parecido a componentWillUnmount");
+      //console.log("Parecido a componentWillUnmount");
       clearTimeout(timeout);
     }
   },[click,nombre]);

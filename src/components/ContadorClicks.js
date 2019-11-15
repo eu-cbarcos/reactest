@@ -16,7 +16,7 @@ class ContadorClicks extends React.Component{
     });
   }
   render () {
-    console.log(this.context);
+    //console.log(this.context);
     return (
       <div className="">
         <p>van {this.state.numclicks}++  {this.context.color} ** {this.context.size}</p>
