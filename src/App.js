@@ -1,4 +1,4 @@
-import React,{Suspense} from 'react';
+import React,{Suspense, useEffect} from 'react';
 //import './App.css';
 import Input from "./components/Input";
 import Textarea from "./components/Textarea"
@@ -16,7 +16,7 @@ import {Switch,Route, BrowserRouter, Link,
 import ThemeContext from './themeContext';
 //import Loadable from 'react-loadable'
 import Portal from './components/Portal'
-import {useQuery, useMutation} from '@apollo/react-hooks';
+import {useQuery, useMutation, useSubscription} from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import {useReducer} from 'react'
 
@@ -90,8 +90,18 @@ const Child = () => {
 
 const Form = React.lazy(() => import(/* webpackChunkName: "formularioAsync" */ './components/Form'));
 
+const POST_SUBSCRIPTION = gql`
+  subscription onPostAdded{
+    postAdded {
+      id
+      title
+      description
+    }
+  }
+`;
 const Lista = () => {
 
+  const subscription = useSubscription(POST_SUBSCRIPTION);
 
   const POSTS_QUERY = gql`
     query {
@@ -120,7 +130,8 @@ const Lista = () => {
     return {...state,...action}
   },{
     title: '',
-    description: ''
+    description: '',
+    posts: []
   });
 
 
@@ -130,7 +141,32 @@ const Lista = () => {
    });
   }
 
+
+
+
+  useEffect(()=>{
+    setState({
+      posts: data ? data.posts: []
+    });
+  },[data]);
+
   
+  useEffect(()=>{
+    if(subscription.data){
+      setState({
+        posts: [
+          ...state.posts.slice(), 
+          {...subscription.data.postAdded}
+        ]
+      });
+    }
+  },[subscription.data]);
+
+
+
+
+
+
   if(loading) return <p>Cargando...</p>
   if(error) return <p>Error...</p>
 
@@ -160,7 +196,7 @@ const Lista = () => {
       </div>
       ***
       <ul>
-        {data.posts.map( ({id,title,description}) => (
+        {state.posts.map( ({id,title,description}) => (
         <li key={id}>
           <h3>{title}</h3>
           <p>{description}</p>
