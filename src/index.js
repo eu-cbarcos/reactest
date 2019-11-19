@@ -6,10 +6,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import ThemeContext from './themeContext';
 import {BrowserRouter} from "react-router-dom"
+import ApolloClient from 'apollo-boost';
+import {ApolloProvider} from '@apollo/react-hooks'
 
+const client = new ApolloClient({
+  uri: 'http://localhost:3001/graphql',
+});
 ReactDOM.hydrate( // ya no es render, sino hydratar... rehidratamos
-  
-    <App />
+  <ApolloProvider client={client}>
+    <BrowserRouter><App /></BrowserRouter>
+  </ApolloProvider>
   , 
   document.getElementById('root')
 );

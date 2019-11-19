@@ -3,16 +3,22 @@ import React,{Suspense} from 'react';
 import Input from "./components/Input";
 import Textarea from "./components/Textarea"
 import styled from '@emotion/styled'
-import {darken} from 'polished'
+//import {darken} from 'polished'
 import {FaChevronLeft,FaChevronRight} from 'react-icons/fa'
 import ContadorClicks from './components/ContadorClicks'
 import ContadorClicksHooks from './components/ContadorClicksHook'
 import ContadorClicksReducer from './components/ContadorClicksReducer'
 //import {Form} from './components/Form'
-import {Switch,Route, BrowserRouter, Link, useParams, useLocation} from "react-router-dom"
+import {Switch,Route, BrowserRouter, Link, 
+  useParams
+  //,   useLocation
+} from "react-router-dom"
 import ThemeContext from './themeContext';
 //import Loadable from 'react-loadable'
 import Portal from './components/Portal'
+import {useQuery, useMutation} from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import {useReducer} from 'react'
 
 //const color = '#f1f2f3';
 const color2 = '#369';
@@ -84,6 +90,87 @@ const Child = () => {
 
 const Form = React.lazy(() => import(/* webpackChunkName: "formularioAsync" */ './components/Form'));
 
+const Lista = () => {
+
+
+  const POSTS_QUERY = gql`
+    query {
+      posts {
+        id
+        title
+        description
+      }
+    }
+  `;
+
+  const POSTS_MUTATION = gql`
+  mutation CreatePost($title: String!,$description: String!){
+    createPost(title: $title,description: $description){
+      id
+      title
+      description
+    }
+  }
+  `;
+
+  const {loading,error,data} = useQuery(POSTS_QUERY);
+  const [addPost,postData] = useMutation(POSTS_MUTATION);
+
+  const [state,setState] = useReducer((state,action)=>{
+    return {...state,...action}
+  },{
+    title: '',
+    description: ''
+  });
+
+
+  const onChange = e => {
+   setState({
+     [e.target.id]: e.target.value
+   });
+  }
+
+  
+  if(loading) return <p>Cargando...</p>
+  if(error) return <p>Error...</p>
+
+
+  return (
+    <div>
+      <form onSubmit={e=>{
+        e.preventDefault();
+        addPost({
+          variables:{
+            title: state.title,
+            description: state.description,
+          }
+        });
+        setState({
+          title: '',
+          description: ''
+        });
+      }}>
+        <input id="title" name="title" value={state.title} onChange={onChange} />
+        <input id="description" name="description" value={state.description} onChange={onChange}/>
+        <button >send</button>
+      </form>
+      <div>
+        <h3>{postData.data? postData.data.createPost.title : ''}</h3>
+        <p>{postData.data? postData.data.createPost.description : ''}</p>
+      </div>
+      ***
+      <ul>
+        {data.posts.map( ({id,title,description}) => (
+        <li key={id}>
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </li>
+        ) )}
+      </ul>
+      
+    </div>
+  );
+}
 
 class App extends React.Component {
   constructor (props) {
@@ -168,6 +255,8 @@ class App extends React.Component {
               </AsideStyle>
               <section className="contenido-principal px-12">
 
+              <Lista />
+              
               <ul>
                 {this.state.entradas.map( (entrada) => (
                   <li key={entrada.id} className="py-4">
@@ -200,6 +289,7 @@ class App extends React.Component {
                 <ContadorClicksReducer />
               </section>
             </AppStyle>
+          
           </Route>
           <Route path="/acerca">
             <div>
