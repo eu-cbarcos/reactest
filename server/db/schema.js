@@ -10,4 +10,7 @@ export default `
   type Mutation {
     createPost(title: String!, description: String!): Post!
   }
+  type Subscription {
+    postAdded: Post
+  }
 `;
