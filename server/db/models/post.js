@@ -15,7 +15,9 @@ module.exports = (sequelize,Datatypes) => {
       description: {
         type: Datatypes.STRING,
         allowNull: false,
-      }
+      },
+      createdAt: Datatypes.STRING,
+      updatedAt: Datatypes.STRING
     }
   );
   return post;

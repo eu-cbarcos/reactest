@@ -1,9 +1,9 @@
 module.exports = {
   development: {
-    username: 'root',
-    password: 'S3Gadm1n',
-    database: 'reactdb',
-    host: '172.16.10.254',
+    username: 'sql10312281',
+    password: 'j9tJYewCg5',
+    database: 'sql10312281',
+    host: 'sql10.freemysqlhosting.net',
     dialect: 'mysql'
   },
   test: {
@@ -13,3 +13,10 @@ module.exports = {
 
   }
 }
+/*
+Server: sql10.freemysqlhosting.net
+Name: sql10312281
+Username: sql10312281
+Password: j9tJYewCg5
+Port number: 3306
+*/
